@@ -1,0 +1,44 @@
+name: $(majorVersion).$(minorVersion).$(Rev:r)
+
+trigger:
+- master
+
+pool:
+  vmImage: windows-latest
+
+variables:
+  buildConfiguration: Release
+  pathToSolutionFile: FastHash.sln
+  pathToTestProject: tests/FastHash.Tests.csproj
+  
+steps:
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    command: build
+    projects: $(pathToSolutionFile)
+    arguments: --configuration $(buildConfiguration)
+
+- task: DotNetCoreCLI@2
+  displayName: Run Tests
+  inputs:
+    command: test
+    projects: $(pathToTestProject)
+    arguments: --configuration $(buildConfiguration) --framework netcoreapp3.1 --no-build
+
+- task: DotNetCoreCLI@2
+  displayName: Create Packages
+  inputs:
+    command: pack
+    packagesToPack: 'src/**/*.csproj'
+    versioningScheme: byBuildNumber
+    arguments: --configuration $(buildConfiguration) --no-build
+
+- task: NuGetCommand@2
+  displayName: Publish Packages
+  inputs:
+    command: push
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    feedsToUse: select
+    nuGetFeedType: internal
+    publishVstsFeed: Default
