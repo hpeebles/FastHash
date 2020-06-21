@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <PackageProjectUrl>https://github.com/hpeebles/FastHash</PackageProjectUrl>
+    <Authors>hpeebles</Authors>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/hpeebles/FastHash</RepositoryUrl>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright 2020 Hamish Peebles</Copyright>
+    <LangVersion>latest</LangVersion>
+    <AssemblyOriginatorKeyFile>../FastHash.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+</Project>
