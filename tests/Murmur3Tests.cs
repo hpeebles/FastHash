@@ -1,7 +1,6 @@
 using System;
 using System.Text;
 using System.Text.Json;
-using FastHash.HashFunctions;
 using FluentAssertions;
 using Xunit;
 
@@ -19,7 +18,7 @@ namespace FastHash.Tests
         {
             var bytes = Encoding.ASCII.GetBytes(text);
 
-            var hash = bytes.GenerateHash32(Murmur3_32.Instance);
+            var hash = bytes.GenerateHash32(Murmur3.Get32Bit());
 
             hash.Should().Be(expectedHash);
         }
@@ -36,9 +35,9 @@ namespace FastHash.Tests
             var json = JsonSerializer.Serialize(obj);
             var bytes = Encoding.ASCII.GetBytes(json);
             
-            var bytesHash = bytes.GenerateHash32(Murmur3_32.Instance);
+            var bytesHash = bytes.GenerateHash32(Murmur3.Get32Bit());
 
-            var jsonHash = obj.GenerateJsonHash32(Murmur3_32.Instance);
+            var jsonHash = obj.GenerateJsonHash32(Murmur3.Get32Bit());
             
             jsonHash.Should().Be(bytesHash);
         }

@@ -6,6 +6,7 @@
     <Description>Generate super fast, zero allocation hashes of any serializable object</Description>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="3.1.5" />
     <PackageReference Include="System.Text.Json" Version="4.7.2" />
   </ItemGroup>
 </Project>
