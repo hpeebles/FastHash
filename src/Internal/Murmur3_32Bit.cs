@@ -45,7 +45,7 @@ namespace FastHash.Internal
             _totalBytesProcessed += (uint)remainder.Length;
         }
 
-        public ReadOnlySpan<byte> GetFinalHashValue()
+        public byte[] GetFinalHashValue()
         {
             var hash = _hash;
             

@@ -7,6 +7,6 @@ namespace FastHash
         int BlockSizeBytes { get; }
         void AddCompleteBlock(ReadOnlySpan<byte> block);
         void AddRemainder(ReadOnlySpan<byte> remainder);
-        ReadOnlySpan<byte> GetFinalHashValue();
+        byte[] GetFinalHashValue();
     }
 }

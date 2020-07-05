@@ -20,7 +20,7 @@ namespace FastHash.Tests
 
             var hash = bytes.GenerateHash32(Murmur3.Get32Bit());
 
-            hash.Should().Be(expectedHash);
+            hash.AsInt().Should().Be(expectedHash);
         }
         
         [Theory]
@@ -39,7 +39,7 @@ namespace FastHash.Tests
 
             var jsonHash = obj.GenerateJsonHash32(Murmur3.Get32Bit());
             
-            jsonHash.Should().Be(bytesHash);
+            jsonHash.AsInt().Should().Be(bytesHash.AsInt());
         }
 
         private class TestClass

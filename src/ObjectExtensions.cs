@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Text.Json;
 using FastHash.Internal;
 
@@ -7,7 +6,7 @@ namespace FastHash
 {
     public static class ObjectExtensions
     {
-        public static int GenerateJsonHash32(
+        public static Hash32 GenerateJsonHash32(
             this object obj,
             IHashFunction hashFunction,
             JsonWriterOptions writerOptions = default,
@@ -17,24 +16,24 @@ namespace FastHash
 
             JsonSerializer.Serialize(new Utf8JsonWriter(hashWriter, writerOptions), obj, serializerOptions);
 
-            return MemoryMarshal.Read<int>(hashWriter.GetResult());
+            return hashWriter.GetResult();
         }
         
-        public static int GenerateHash32(
+        public static Hash32 GenerateHash32(
             this byte[] bytes,
             IHashFunction hashFunction)
         {
             return GenerateHash32(new ReadOnlySpan<byte>(bytes), hashFunction);
         }
         
-        public static int GenerateHash32(
+        public static Hash32 GenerateHash32(
             this Span<byte> bytes,
             IHashFunction hashFunction)
         {
             return GenerateHash32((ReadOnlySpan<byte>)bytes, hashFunction);
         }
 
-        public static int GenerateHash32(
+        public static Hash32 GenerateHash32(
             this ReadOnlySpan<byte> bytes,
             IHashFunction hashFunction)
         {
@@ -61,7 +60,7 @@ namespace FastHash
             if (remainder > 0)
                 hashFunction.AddRemainder(bytes.Slice(bytes.Length - remainder));
 
-            return MemoryMarshal.Read<int>(hashFunction.GetFinalHashValue());
+            return hashFunction.GetFinalHashValue();
         }
     }
 }

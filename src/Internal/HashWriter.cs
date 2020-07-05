@@ -33,7 +33,7 @@ namespace FastHash.Internal
             }
         }
         
-        public ReadOnlySpan<byte> GetResult()
+        public byte[] GetResult()
         {
             var bytesRemaining = _currentByteIndex - _byteIndexProcessedUpTo;
 
