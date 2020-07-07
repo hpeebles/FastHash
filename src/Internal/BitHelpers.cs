@@ -15,5 +15,17 @@ namespace FastHash.Internal
         {
             return (value >> count) | (value << (32 - count));
         }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong RotateLeft(this ulong value, int count)
+        {
+            return (value << count) | (value >> (64 - count));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong RotateRight(this ulong value, int count)
+        {
+            return (value >> count) | (value << (64 - count));
+        }
     }
 }

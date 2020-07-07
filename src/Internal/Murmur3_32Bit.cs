@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace FastHash.Internal
@@ -19,13 +20,13 @@ namespace FastHash.Internal
             k1 = k1.RotateLeft(15);
             k1 *= C2;
 
-            var hash = _hash;
-            hash ^= k1;
-            hash = hash.RotateLeft(13);
-            hash *= 5;
-            hash += 0xe6546b64;
+            var h1 = _hash;
+            h1 ^= k1;
+            h1 = h1.RotateLeft(13);
+            h1 *= 5;
+            h1 += 0xe6546b64;
 
-            _hash = hash;
+            _hash = h1;
             _totalBytesProcessed += 4;
         }
 
@@ -33,10 +34,10 @@ namespace FastHash.Internal
         {
             uint k1 = 0;
             
-            switch (remainder.Length)
+            switch (remainder.Length & 3)
             {
-                case 3: k1 ^= (uint)(remainder[2] << 16); goto case 2;
-                case 2: k1 ^= (uint)(remainder[1] << 8); goto case 1;
+                case 3: k1 ^= (uint)remainder[2] << 16; goto case 2;
+                case 2: k1 ^= (uint)remainder[1] << 8; goto case 1;
                 case 1: k1 ^= remainder[0];
                     k1 *= C1; k1 = k1.RotateLeft(15); k1 *= C2; _hash ^= k1;
                     break;
@@ -47,17 +48,13 @@ namespace FastHash.Internal
 
         public byte[] GetFinalHashValue()
         {
-            var hash = _hash;
+            var h1 = _hash;
             
-            hash ^= _totalBytesProcessed;
+            h1 ^= _totalBytesProcessed;
 
-            hash ^= hash >> 16;
-            hash *= 0x85ebca6b;
-            hash ^= hash >> 13;
-            hash *= 0xc2b2ae35;
-            hash ^= hash >> 16;
+            h1 = FMix32(h1);
             
-            var bytes = BitConverter.GetBytes(hash);
+            var bytes = BitConverter.GetBytes(h1);
 
             Reset();
 
@@ -69,6 +66,17 @@ namespace FastHash.Internal
             _hash = 0;
             _totalBytesProcessed = 0;
             Murmur3.Return(this);
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static uint FMix32(uint k)
+        {
+            k ^= k >> 16;
+            k *= 0x85ebca6b;
+            k ^= k >> 13;
+            k *= 0xc2b2ae35;
+            k ^= k >> 16;
+            return k;
         }
     }
 }
