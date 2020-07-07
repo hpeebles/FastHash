@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace FastHash
 {
@@ -27,6 +28,14 @@ namespace FastHash
         public Hash64 High => new Hash64(_bytes.Slice(0, 8));
         public Hash64 Low => new Hash64(_bytes.Slice(8, 8));
         
+        public override string ToString()
+        {
+            var builder = new StringBuilder(32);
+            builder.Append(High.ToString());
+            builder.Append(Low.ToString());
+            return builder.ToString();
+        }
+
         public static implicit operator Hash128(byte[] bytes) => new Hash128(bytes);
         public static implicit operator ReadOnlySpan<byte>(Hash128 hashValue) => hashValue.AsSpan();
         public static implicit operator Guid(Hash128 hashValue) => hashValue.AsGuid();

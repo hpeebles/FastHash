@@ -25,6 +25,8 @@ namespace FastHash
         public int AsInt32() => MemoryMarshal.Read<int>(_bytes.Span);
         public uint AsUInt32() => MemoryMarshal.Read<uint>(_bytes.Span);
 
+        public override string ToString() => AsInt32().ToString("X8");
+
         public static implicit operator Hash32(byte[] bytes) => new Hash32(bytes);
         public static implicit operator ReadOnlySpan<byte>(Hash32 hashValue) => hashValue.AsSpan();
         public static implicit operator int(Hash32 hashValue) => hashValue.AsInt32();

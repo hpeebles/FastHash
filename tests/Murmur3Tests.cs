@@ -52,11 +52,9 @@ namespace FastHash.Tests
         {
             var bytes = Encoding.ASCII.GetBytes(text);
 
-            var (high, low) = bytes.GenerateHash128(Murmur3.Get128Bit());
+            var hash = bytes.GenerateHash128(Murmur3.Get128Bit());
 
-            var hexString = high.AsInt64().ToString("X16") + low.AsInt64().ToString("X16");
-
-            hexString.Should().Be(expectedHash);
+            hash.ToString().Should().Be(expectedHash);
         }
         
         [Theory]

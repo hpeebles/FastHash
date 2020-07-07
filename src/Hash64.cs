@@ -24,6 +24,8 @@ namespace FastHash
         public ReadOnlySpan<byte> AsSpan() => _bytes.Span;
         public long AsInt64() => MemoryMarshal.Read<long>(_bytes.Span);
         public ulong AsUInt64() => MemoryMarshal.Read<ulong>(_bytes.Span);
+        
+        public override string ToString() => AsInt64().ToString("X16");
 
         public static implicit operator Hash64(byte[] bytes) => new Hash64(bytes);
         public static implicit operator ReadOnlySpan<byte>(Hash64 hashValue) => hashValue.AsSpan();
