@@ -14,8 +14,8 @@ namespace FastHash
             Pool128Bit = new DefaultObjectPool<Murmur3_128Bit>(new DefaultPooledObjectPolicy<Murmur3_128Bit>());
         }
         
-        public static IHashFunction Get32Bit() => Pool32Bit.Get();
-        public static IHashFunction Get128Bit() => Pool128Bit.Get();
+        public static IHashFunction Get32BitHashFunction() => Pool32Bit.Get();
+        public static IHashFunction Get128BitHashFunction() => Pool128Bit.Get();
         
         internal static void Return(Murmur3_32Bit item) => Pool32Bit.Return(item);
         internal static void Return(Murmur3_128Bit item) => Pool128Bit.Return(item);
