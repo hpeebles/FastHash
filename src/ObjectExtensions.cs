@@ -140,17 +140,8 @@ namespace FastHash
 
             if (blockSizeBytes < hashSizeBytes)
                 throw ThrowBlockSizeTooSmallException(blockSizeBytes, hashSizeBytes);
-            
-            var powerOf2 = blockSizeBytes switch
-            {
-                4 => 2,
-                8 => 3,
-                16 => 4,
-                _ => throw new ArgumentException("Block size not supported - " + hashFunction.BlockSizeBytes, nameof(hashFunction))
-            };
 
-            var blockCount = bytes.Length >> powerOf2;
-            var remainder = bytes.Length & (blockSizeBytes - 1);
+            var (blockCount, remainder) = Utils.GetBlockCountAndRemainder(bytes.Length, blockSizeBytes);
             
             for (var blockIndex = 0; blockIndex < blockCount; blockIndex++)
             {
