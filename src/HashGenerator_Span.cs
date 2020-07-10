@@ -9,24 +9,24 @@ namespace FastHash
             ReadOnlySpan<byte> bytes,
             IHashFunction hashFunction = null)
         {
-            return GenerateHash(bytes, hashFunction ?? Murmur3.Get32BitHashFunction(), 4);
+            return GenerateHashImpl(bytes, hashFunction ?? Murmur3.Get32BitHashFunction(), 4);
         }
         
         public static Hash64 GenerateHash64(
             ReadOnlySpan<byte> bytes,
             IHashFunction hashFunction = null)
         {
-            return GenerateHash(bytes, hashFunction ?? Murmur3.Get128BitHashFunction(), 8);
+            return GenerateHashImpl(bytes, hashFunction ?? Murmur3.Get128BitHashFunction(), 8);
         }
         
         public static Hash128 GenerateHash128(
             ReadOnlySpan<byte> bytes,
             IHashFunction hashFunction = null)
         {
-            return GenerateHash(bytes, hashFunction ?? Murmur3.Get128BitHashFunction(), 16);
+            return GenerateHashImpl(bytes, hashFunction ?? Murmur3.Get128BitHashFunction(), 16);
         }
         
-        private static byte[] GenerateHash(
+        private static byte[] GenerateHashImpl(
             ReadOnlySpan<byte> bytes,
             IHashFunction hashFunction,
             int hashSizeBytes)
