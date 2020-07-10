@@ -3,7 +3,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <PackageId>FastHash</PackageId>
     <PackageTags>Hash;Murmur3;Json</PackageTags>
-    <Description>Generate super fast, zero allocation hashes of any serializable object</Description>
+    <Description>Easily create high performance, deterministic hashes of any serializable object or stream of bytes</Description>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="3.1.5" />
