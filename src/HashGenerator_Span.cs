@@ -9,35 +9,43 @@ namespace FastHash
             ReadOnlySpan<byte> bytes,
             IHashFunction hashFunction = null)
         {
-            return GenerateHashImpl(bytes, hashFunction ?? Murmur3.Get32BitHashFunction(), 4);
+            if (hashFunction is null)
+                hashFunction = DefaultHashFunction.Get32Bit();
+            else 
+                HashFunctionValidator.Validate(hashFunction, 4);
+            
+            return GenerateHashImpl(bytes, hashFunction);
         }
         
         public static Hash64 GenerateHash64(
             ReadOnlySpan<byte> bytes,
             IHashFunction hashFunction = null)
         {
-            return GenerateHashImpl(bytes, hashFunction ?? Murmur3.Get128BitHashFunction(), 8);
+            if (hashFunction is null)
+                hashFunction = DefaultHashFunction.Get64Bit();
+            else 
+                HashFunctionValidator.Validate(hashFunction, 8);
+            
+            return GenerateHashImpl(bytes, hashFunction);
         }
         
         public static Hash128 GenerateHash128(
             ReadOnlySpan<byte> bytes,
             IHashFunction hashFunction = null)
         {
-            return GenerateHashImpl(bytes, hashFunction ?? Murmur3.Get128BitHashFunction(), 16);
+            if (hashFunction is null)
+                hashFunction = DefaultHashFunction.Get128Bit();
+            else 
+                HashFunctionValidator.Validate(hashFunction, 16);
+            
+            return GenerateHashImpl(bytes, hashFunction);
         }
         
         private static byte[] GenerateHashImpl(
             ReadOnlySpan<byte> bytes,
-            IHashFunction hashFunction,
-            int hashSizeBytes)
+            IHashFunction hashFunction)
         {
-            if (hashFunction is null) throw new ArgumentNullException(nameof(hashFunction));
-
             var blockSizeBytes = hashFunction.BlockSizeBytes;
-
-            if (blockSizeBytes < hashSizeBytes)
-                throw Errors.BlockSizeTooSmall(blockSizeBytes, hashSizeBytes);
-
             var blockCount = bytes.Length / blockSizeBytes;
             var remainder = bytes.Length % blockSizeBytes;
             

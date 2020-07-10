@@ -13,9 +13,9 @@ namespace FastHash
             JsonSerializerOptions serializerOptions = default)
         {
             if (hashFunction is null)
-                hashFunction = Murmur3.Get32BitHashFunction();
-            else if (hashFunction.BlockSizeBytes < 4)
-                throw Errors.BlockSizeTooSmall(hashFunction.BlockSizeBytes, 4);
+                hashFunction = DefaultHashFunction.Get32Bit();
+            else
+                HashFunctionValidator.Validate(hashFunction, 4);
             
             return GenerateJsonHashImpl(obj, hashFunction, writerOptions, serializerOptions);
         }
@@ -27,9 +27,9 @@ namespace FastHash
             JsonSerializerOptions serializerOptions = default)
         {
             if (hashFunction is null)
-                hashFunction = Murmur3.Get128BitHashFunction();
-            else if (hashFunction.BlockSizeBytes < 8)
-                throw Errors.BlockSizeTooSmall(hashFunction.BlockSizeBytes, 8);
+                hashFunction = DefaultHashFunction.Get64Bit();
+            else
+                HashFunctionValidator.Validate(hashFunction, 8);
             
             return GenerateJsonHashImpl(obj, hashFunction, writerOptions, serializerOptions);
         }
@@ -41,9 +41,9 @@ namespace FastHash
             JsonSerializerOptions serializerOptions = default)
         {
             if (hashFunction is null)
-                hashFunction = Murmur3.Get128BitHashFunction();
-            else if (hashFunction.BlockSizeBytes < 16)
-                throw Errors.BlockSizeTooSmall(hashFunction.BlockSizeBytes, 16);
+                hashFunction = DefaultHashFunction.Get128Bit();
+            else
+                HashFunctionValidator.Validate(hashFunction, 16);
 
             return GenerateJsonHashImpl(obj, hashFunction, writerOptions, serializerOptions);
         }
