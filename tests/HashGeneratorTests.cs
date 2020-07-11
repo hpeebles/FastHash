@@ -92,7 +92,7 @@ namespace FastHash.Tests
 
             for (var i = 0; i < guids.Length; i++)
             {
-                var obj = new TestClass {A = i, B = i.ToString(), C = guids[i]};
+                var obj = new TestClass { A = i, B = new String(i.ToString()[0], i), C = guids[i] };
 
                 var json = JsonSerializer.Serialize(obj);
                 var bytes = Encoding.ASCII.GetBytes(json);
@@ -111,7 +111,7 @@ namespace FastHash.Tests
 
             for (var i = 0; i < guids.Length; i++)
             {
-                var obj = new TestClass { A = i, B = i.ToString(), C = guids[i] };
+                var obj = new TestClass { A = i, B = new String(i.ToString()[0], i), C = guids[i] };
 
                 var json = JsonSerializer.Serialize(obj);
                 var bytes = Encoding.ASCII.GetBytes(json);
@@ -130,7 +130,7 @@ namespace FastHash.Tests
 
             for (var i = 0; i < guids.Length; i++)
             {
-                var obj = new TestClass { A = i, B = i.ToString(), C = guids[i] };
+                var obj = new TestClass { A = i, B = new String(i.ToString()[0], i), C = guids[i] };
 
                 var json = JsonSerializer.Serialize(obj);
                 var bytes = Encoding.ASCII.GetBytes(json);
