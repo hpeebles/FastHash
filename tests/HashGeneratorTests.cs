@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
@@ -80,6 +83,70 @@ namespace FastHash.Tests
 
                 hash1.ToString().Should().Be(hash2.ToString());
             }
+        }
+
+        [Fact]
+        public void JsonHashOfObject_HashOfJsonBytes_ProduceTheSameHash_32Bit()
+        {
+            var guids = TestGuids.Get();
+
+            for (var i = 0; i < guids.Length; i++)
+            {
+                var obj = new TestClass {A = i, B = i.ToString(), C = guids[i]};
+
+                var json = JsonSerializer.Serialize(obj);
+                var bytes = Encoding.ASCII.GetBytes(json);
+
+                var bytesHash = HashGenerator.GenerateHash32(bytes);
+                var jsonHash = HashGenerator.GenerateJsonHash32(obj);
+
+                jsonHash.AsInt32().Should().Be(bytesHash.AsInt32());
+            }
+        }
+
+        [Fact]
+        public void JsonHashOfObject_HashOfJsonBytes_ProduceTheSameHash_64Bit()
+        {
+            var guids = TestGuids.Get();
+
+            for (var i = 0; i < guids.Length; i++)
+            {
+                var obj = new TestClass { A = i, B = i.ToString(), C = guids[i] };
+
+                var json = JsonSerializer.Serialize(obj);
+                var bytes = Encoding.ASCII.GetBytes(json);
+
+                var bytesHash = HashGenerator.GenerateHash64(bytes);
+                var jsonHash = HashGenerator.GenerateJsonHash64(obj);
+
+                jsonHash.AsInt64().Should().Be(bytesHash.AsInt64());
+            }
+        }
+
+        [Fact]
+        public void JsonHashOfObject_HashOfJsonBytes_ProduceTheSameHash_128Bit()
+        {
+            var guids = TestGuids.Get();
+
+            for (var i = 0; i < guids.Length; i++)
+            {
+                var obj = new TestClass { A = i, B = i.ToString(), C = guids[i] };
+
+                var json = JsonSerializer.Serialize(obj);
+                var bytes = Encoding.ASCII.GetBytes(json);
+
+                var bytesHash = HashGenerator.GenerateHash128(bytes);
+                var jsonHash = HashGenerator.GenerateJsonHash128(obj);
+
+                jsonHash.ToString().Should().Be(bytesHash.ToString());
+            }
+        }
+
+        private class TestClass
+        {
+            public int A { get; set; }
+            public string B { get; set; }
+            public Guid C { get; set; }
         }
     }
 }
