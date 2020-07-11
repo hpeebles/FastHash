@@ -8,9 +8,9 @@ namespace FastHash
     {
         public static Hash32 GenerateJsonHash32(
             object obj,
-            IHashFunction hashFunction = null,
+            IHashFunction? hashFunction = null,
             JsonWriterOptions writerOptions = default,
-            JsonSerializerOptions serializerOptions = default)
+            JsonSerializerOptions? serializerOptions = null)
         {
             if (hashFunction is null)
                 hashFunction = DefaultHashFunction.Get32Bit();
@@ -22,9 +22,9 @@ namespace FastHash
      
         public static Hash64 GenerateJsonHash64(
             object obj,
-            IHashFunction hashFunction = null,
+            IHashFunction? hashFunction = null,
             JsonWriterOptions writerOptions = default,
-            JsonSerializerOptions serializerOptions = default)
+            JsonSerializerOptions? serializerOptions = null)
         {
             if (hashFunction is null)
                 hashFunction = DefaultHashFunction.Get64Bit();
@@ -36,9 +36,9 @@ namespace FastHash
         
         public static Hash128 GenerateJsonHash128(
             object obj,
-            IHashFunction hashFunction = null,
+            IHashFunction? hashFunction = null,
             JsonWriterOptions writerOptions = default,
-            JsonSerializerOptions serializerOptions = default)
+            JsonSerializerOptions? serializerOptions = null)
         {
             if (hashFunction is null)
                 hashFunction = DefaultHashFunction.Get128Bit();
@@ -53,7 +53,7 @@ namespace FastHash
             object obj,
             IHashFunction hashFunction,
             JsonWriterOptions writerOptions,
-            JsonSerializerOptions serializerOptions)
+            JsonSerializerOptions? serializerOptions)
         {
             var hashWriter = new HashWriter(hashFunction);
 

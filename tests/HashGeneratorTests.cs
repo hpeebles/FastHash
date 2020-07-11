@@ -145,7 +145,7 @@ namespace FastHash.Tests
         private class TestClass
         {
             public int A { get; set; }
-            public string B { get; set; }
+            public string? B { get; set; }
             public Guid C { get; set; }
         }
     }

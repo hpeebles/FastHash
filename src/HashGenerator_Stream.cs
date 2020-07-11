@@ -9,7 +9,7 @@ namespace FastHash
     {
         public static async ValueTask<Hash32> GenerateHash32Async(
             Stream stream,
-            IHashFunction hashFunction = null,
+            IHashFunction? hashFunction = null,
             int bufferSize = 1024,
             CancellationToken cancellationToken = default)
         {
@@ -27,7 +27,7 @@ namespace FastHash
         
         public static async ValueTask<Hash64> GenerateHash64Async(
             Stream stream,
-            IHashFunction hashFunction = null,
+            IHashFunction? hashFunction = null,
             int bufferSize = 1024,
             CancellationToken cancellationToken = default)
         {
@@ -45,7 +45,7 @@ namespace FastHash
         
         public static async ValueTask<Hash128> GenerateHash128Async(
             Stream stream,
-            IHashFunction hashFunction = null,
+            IHashFunction? hashFunction = null,
             int bufferSize = 1024,
             CancellationToken cancellationToken = default)
         {

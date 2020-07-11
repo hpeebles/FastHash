@@ -47,7 +47,7 @@ namespace FastHash.Internal
             var hash = _hashFunction.GetFinalHashValue();
             
             var buffer = _buffer;
-            _buffer = null;
+            _buffer = Array.Empty<byte>();
             ArrayPool<byte>.Shared.Return(buffer);
 
             return hash;

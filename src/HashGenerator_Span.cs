@@ -7,7 +7,7 @@ namespace FastHash
     {  
         public static Hash32 GenerateHash32(
             ReadOnlySpan<byte> bytes,
-            IHashFunction hashFunction = null)
+            IHashFunction? hashFunction = null)
         {
             if (hashFunction is null)
                 hashFunction = DefaultHashFunction.Get32Bit();
@@ -19,7 +19,7 @@ namespace FastHash
         
         public static Hash64 GenerateHash64(
             ReadOnlySpan<byte> bytes,
-            IHashFunction hashFunction = null)
+            IHashFunction? hashFunction = null)
         {
             if (hashFunction is null)
                 hashFunction = DefaultHashFunction.Get64Bit();
@@ -31,7 +31,7 @@ namespace FastHash
         
         public static Hash128 GenerateHash128(
             ReadOnlySpan<byte> bytes,
-            IHashFunction hashFunction = null)
+            IHashFunction? hashFunction = null)
         {
             if (hashFunction is null)
                 hashFunction = DefaultHashFunction.Get128Bit();
