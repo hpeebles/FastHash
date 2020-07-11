@@ -7,7 +7,7 @@ namespace FastHash
 {
     public static partial class HashGenerator
     {
-        public static async Task<Hash32> GenerateHash32Async(
+        public static async ValueTask<Hash32> GenerateHash32Async(
             Stream stream,
             IHashFunction hashFunction = null,
             int bufferSize = 1024,
@@ -18,10 +18,14 @@ namespace FastHash
             else 
                 HashFunctionValidator.Validate(hashFunction, 4);
 
-            return await GenerateHashAsyncImpl(stream, hashFunction, bufferSize, cancellationToken).ConfigureAwait(false);
+            var getBytesTask = GenerateHashAsyncImpl(stream, hashFunction, bufferSize, cancellationToken);
+
+            return getBytesTask.IsCompleted
+                ? getBytesTask.Result
+                : await getBytesTask.ConfigureAwait(false);
         }
         
-        public static async Task<Hash64> GenerateHash64Async(
+        public static async ValueTask<Hash64> GenerateHash64Async(
             Stream stream,
             IHashFunction hashFunction = null,
             int bufferSize = 1024,
@@ -32,10 +36,14 @@ namespace FastHash
             else 
                 HashFunctionValidator.Validate(hashFunction, 8);
 
-            return await GenerateHashAsyncImpl(stream, hashFunction, bufferSize, cancellationToken).ConfigureAwait(false);
+            var getBytesTask = GenerateHashAsyncImpl(stream, hashFunction, bufferSize, cancellationToken);
+
+            return getBytesTask.IsCompleted
+                ? getBytesTask.Result
+                : await getBytesTask.ConfigureAwait(false);
         }
         
-        public static async Task<Hash128> GenerateHash128Async(
+        public static async ValueTask<Hash128> GenerateHash128Async(
             Stream stream,
             IHashFunction hashFunction = null,
             int bufferSize = 1024,
@@ -46,10 +54,14 @@ namespace FastHash
             else 
                 HashFunctionValidator.Validate(hashFunction, 16);
 
-            return await GenerateHashAsyncImpl(stream, hashFunction, bufferSize, cancellationToken).ConfigureAwait(false);
+            var getBytesTask = GenerateHashAsyncImpl(stream, hashFunction, bufferSize, cancellationToken);
+
+            return getBytesTask.IsCompleted
+                ? getBytesTask.Result
+                : await getBytesTask.ConfigureAwait(false);
         }
         
-        private static async Task<byte[]> GenerateHashAsyncImpl(
+        private static async ValueTask<byte[]> GenerateHashAsyncImpl(
             Stream stream,
             IHashFunction hashFunction,
             int bufferSize,
@@ -61,10 +73,12 @@ namespace FastHash
             {
                 var buffer = hashWriter.GetMemory(bufferSize);
                 
-                var bytesRead = await stream
-                    .ReadAsync(buffer, cancellationToken)
-                    .ConfigureAwait(false);
+                var readBytesTask = stream.ReadAsync(buffer, cancellationToken);
 
+                var bytesRead = readBytesTask.IsCompleted
+                    ? readBytesTask.Result
+                    : await readBytesTask.ConfigureAwait(false);
+                
                 if (bytesRead == 0)
                     break;
                 
