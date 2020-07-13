@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>8</LangVersion>
+    <Nullable>Enable</Nullable>
+	<Features>strict</Features>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+</Project>
