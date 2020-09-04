@@ -1,10 +1,53 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using FastHash.Internal;
 
 namespace FastHash
 {
     public static partial class HashGenerator
-    {  
+    {
+        public static Hash32 GenerateHash32(
+            ReadOnlySpan<char> input,
+            IHashFunction? hashFunction = null)
+        {
+            if (hashFunction is null)
+                hashFunction = DefaultHashFunction.Get32Bit();
+            else 
+                HashFunctionValidator.Validate(hashFunction, 4);
+
+            var bytes = MemoryMarshal.Cast<char, byte>(input);
+            
+            return GenerateHashImpl(bytes, hashFunction);
+        }
+        
+        public static Hash64 GenerateHash64(
+            ReadOnlySpan<char> input,
+            IHashFunction? hashFunction = null)
+        {
+            if (hashFunction is null)
+                hashFunction = DefaultHashFunction.Get64Bit();
+            else 
+                HashFunctionValidator.Validate(hashFunction, 8);
+            
+            var bytes = MemoryMarshal.Cast<char, byte>(input);
+            
+            return GenerateHashImpl(bytes, hashFunction);
+        }
+        
+        public static Hash128 GenerateHash128(
+            ReadOnlySpan<char> input,
+            IHashFunction? hashFunction = null)
+        {
+            if (hashFunction is null)
+                hashFunction = DefaultHashFunction.Get128Bit();
+            else 
+                HashFunctionValidator.Validate(hashFunction, 16);
+
+            var bytes = MemoryMarshal.Cast<char, byte>(input);
+            
+            return GenerateHashImpl(bytes, hashFunction);
+        }
+        
         public static Hash32 GenerateHash32(
             ReadOnlySpan<byte> bytes,
             IHashFunction? hashFunction = null)

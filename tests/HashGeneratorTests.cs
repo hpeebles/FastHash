@@ -14,7 +14,7 @@ namespace FastHash.Tests
     public class HashGeneratorTests
     {
         [Fact]
-        public void ForDifferentInputs_OutputIsDifferent_32Bit()
+        public void GenerateHash32_ForDifferentByteArrayInputs_ProducesDifferentOutputs()
         {
             var inputs = TestGuids.Get().Select(g => g.ToByteArray()).ToArray();
 
@@ -24,7 +24,7 @@ namespace FastHash.Tests
         }
         
         [Fact]
-        public void ForDifferentInputs_OutputIsDifferent_64Bit()
+        public void GenerateHash64_ForDifferentByteArrayInputs_ProducesDifferentOutputs()
         {
             var inputs = TestGuids.Get().Select(g => g.ToByteArray()).ToArray();
 
@@ -34,7 +34,7 @@ namespace FastHash.Tests
         }
         
         [Fact]
-        public void ForDifferentInputs_OutputIsDifferent_128Bit()
+        public void GenerateHash128_ForDifferentByteArrayInputs_ProducesDifferentOutputs()
         {
             var inputs = TestGuids.Get().Select(g => g.ToByteArray()).ToArray();
 
@@ -44,7 +44,37 @@ namespace FastHash.Tests
         }
         
         [Fact]
-        public async Task StreamOfBytes_ArrayOfBytes_ProduceTheSameHash_32Bit()
+        public void GenerateHash32_ForDifferentStringInputs_ProducesDifferentOutputs()
+        {
+            var inputs = TestGuids.Get().Select(g => g.ToString()).ToArray();
+
+            var outputs = inputs.Select(i => HashGenerator.GenerateHash32(i).ToString()).ToArray();
+
+            outputs.Distinct().Count().Should().Be(inputs.Length);
+        }
+        
+        [Fact]
+        public void GenerateHash64_ForDifferentStringInputs_ProducesDifferentOutputs()
+        {
+            var inputs = TestGuids.Get().Select(g => g.ToString()).ToArray();
+
+            var outputs = inputs.Select(i => HashGenerator.GenerateHash64(i).ToString()).ToList();
+
+            outputs.Distinct().Count().Should().Be(inputs.Length);
+        }
+        
+        [Fact]
+        public void GenerateHash128_ForDifferentStringInputs_ProducesDifferentOutputs()
+        {
+            var inputs = TestGuids.Get().Select(g => g.ToString()).ToArray();
+
+            var outputs = inputs.Select(i => HashGenerator.GenerateHash128(i).ToString()).ToList();
+
+            outputs.Distinct().Count().Should().Be(inputs.Length);
+        }
+        
+        [Fact]
+        public async Task GenerateHash32AndGenerateHash32Async_SameArrayOfBytes_ProduceTheSameHash()
         {
             var inputs = TestGuids.Get().Select(g => g.ToByteArray()).ToArray();
 
@@ -58,7 +88,7 @@ namespace FastHash.Tests
         }
         
         [Fact]
-        public async Task StreamOfBytes_ArrayOfBytes_ProduceTheSameHash_64Bit()
+        public async Task GenerateHash64AndGenerateHash64Async_SameArrayOfBytes_ProduceTheSameHash()
         {
             var inputs = TestGuids.Get().Select(g => g.ToByteArray()).ToArray();
 
@@ -72,7 +102,7 @@ namespace FastHash.Tests
         }
         
         [Fact]
-        public async Task StreamOfBytes_ArrayOfBytes_ProduceTheSameHash_128Bit()
+        public async Task GenerateHash128AndGenerateHash128Async_SameArrayOfBytes_ProduceTheSameHash()
         {
             var inputs = TestGuids.Get().Select(g => g.ToByteArray()).ToArray();
 
@@ -86,7 +116,7 @@ namespace FastHash.Tests
         }
 
         [Fact]
-        public void JsonHashOfObject_HashOfJsonBytes_ProduceTheSameHash_32Bit()
+        public void GenerateHash32AndGenerateJsonHash32_SameSourceObject_ProduceTheSameHash()
         {
             var guids = TestGuids.Get();
 
@@ -105,7 +135,7 @@ namespace FastHash.Tests
         }
 
         [Fact]
-        public void JsonHashOfObject_HashOfJsonBytes_ProduceTheSameHash_64Bit()
+        public void GenerateHash64AndGenerateJsonHash64_SameSourceObject_ProduceTheSameHash()
         {
             var guids = TestGuids.Get();
 
@@ -124,7 +154,7 @@ namespace FastHash.Tests
         }
 
         [Fact]
-        public void JsonHashOfObject_HashOfJsonBytes_ProduceTheSameHash_128Bit()
+        public void GenerateHash128AndGenerateJsonHash128_SameSourceObject_ProduceTheSameHash()
         {
             var guids = TestGuids.Get();
 
